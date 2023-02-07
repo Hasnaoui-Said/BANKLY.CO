@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("hello")
 public class HelloMicUsers {
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public String hello(){
