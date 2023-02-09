@@ -1,11 +1,8 @@
-package co.bankly.wallet.models.entity;
+package co.bankly.wallet.rest.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
@@ -14,17 +11,15 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.UUID;
 
-@Document("wallet")
 @Data
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
-public class Wallet {
+public class WalletVo {
 
-    @Id
     private UUID uuid;
-    private Double balance = 0D;
-    @NotNull @NotEmpty @Size(min = 6, max = 30)
+    private String balance;
+    @NotNull
+    @NotEmpty
+    @Size(min = 6, max = 30)
     private String name;
 
     @NotNull @NotEmpty @Size(min = 6, max = 30)

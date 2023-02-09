@@ -3,6 +3,8 @@ package co.bankly.wallet.rest.required.facade;
 import co.bankly.wallet.exception.BadRequestException;
 import co.bankly.wallet.models.domain.ResponseObject;
 import co.bankly.wallet.models.entity.Wallet;
+import co.bankly.wallet.rest.converter.WalletConverter;
+import co.bankly.wallet.rest.vo.WalletVo;
 import co.bankly.wallet.service.WalletServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +24,11 @@ public class WalletController {
 
     @Autowired
     WalletServiceImpl walletService;
+    @Autowired
+    WalletConverter walletConverter;
 
     @RequestMapping(method = RequestMethod.POST, value = "/")
-    public ResponseEntity<ResponseObject<?>> save(@RequestBody @Valid Wallet wallet, BindingResult bindingResult) {
+    public ResponseEntity<ResponseObject<?>> save(@RequestBody @Valid WalletVo wallet, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
@@ -33,12 +37,12 @@ public class WalletController {
             return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
         }
         try {
-            Wallet walletSave = this.walletService.insert(wallet);
-            ResponseObject<Wallet> responseObject = new ResponseObject<>(false,
-                    "Error", walletSave);
+            Wallet walletSave = this.walletService.insert(this.walletConverter.toBean(wallet));
+            ResponseObject<WalletVo> responseObject = new ResponseObject<>(true,
+                    "Wallet saved successfully !!", this.walletConverter.toVo(walletSave));
             return new ResponseEntity<>(responseObject, HttpStatus.OK);
         } catch (BadRequestException e) {
-            ResponseObject<Wallet> responseObject = new ResponseObject<>(false,
+            ResponseObject<WalletVo> responseObject = new ResponseObject<>(false,
                     e.getMessage(), wallet);
             return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
         }
@@ -46,29 +50,33 @@ public class WalletController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public ResponseEntity<ResponseObject<?>> findAll() {
-        ResponseObject<List<Wallet>> responseObject = new ResponseObject<>(false,
-                "User not valid!!", this.walletService.findAll());
+        List<Wallet> all = this.walletService.findAll();
+        ResponseObject<List<WalletVo>> responseObject = new ResponseObject<>(false,
+                "Find all!", this.walletConverter.toVos(all));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
-
     }
 
-    public ResponseEntity<ResponseObject<?>> findByUuid(UUID uuid) {
-        ResponseObject<Wallet> responseObject = new ResponseObject<>(true,
-                "Wallet By Holder!", this.walletService.findByUuid(uuid));
+    @RequestMapping(method = RequestMethod.GET, value = "/uuid/{uuid}")
+    public ResponseEntity<ResponseObject<?>> findByUuid(@PathVariable UUID uuid) {
+        Wallet byUuid = this.walletService.findByUuid(uuid);
+        ResponseObject<WalletVo> responseObject = new ResponseObject<>(true,
+                "Wallet By Uuid!", this.walletConverter.toVo(byUuid));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/name/{name}")
     public ResponseEntity<ResponseObject<?>> findByName(@PathVariable String name) {
-        ResponseObject<Wallet> responseObject = new ResponseObject<>(true,
-                "Wallet By Holder!", this.walletService.findByName(name));
+        Wallet byName = this.walletService.findByName(name);
+        ResponseObject<WalletVo> responseObject = new ResponseObject<>(true,
+                "Wallet By Holder!", this.walletConverter.toVo(byName));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/holder/{holder}")
     public ResponseEntity<ResponseObject<?>> findByHolder(@PathVariable String holder) {
-        ResponseObject<List<Wallet>> responseObject = new ResponseObject<>(true,
-                "Wallet By Holder!", this.walletService.findAll());
+        List<Wallet> all = this.walletService.findAll();
+        ResponseObject<List<WalletVo>> responseObject = new ResponseObject<>(true,
+                "Wallet By Holder!", this.walletConverter.toVos(all));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 
