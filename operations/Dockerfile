@@ -1,9 +1,9 @@
 FROM openjdk:11
 
-WORKDIR /orders
+WORKDIR /operations
 
-COPY target/demo-0.0.1-SNAPSHOT.jar operations/
+COPY target/operations-0.0.1-SNAPSHOT.jar operations/
 
-EXPOSE 9090
+EXPOSE 9092
 
-CMD ["java","-jar","operations/demo-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","operations/operations-0.0.1-SNAPSHOT.jar"]

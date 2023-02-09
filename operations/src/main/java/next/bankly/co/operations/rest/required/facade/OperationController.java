@@ -48,8 +48,8 @@ public class OperationController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/wallet/id")
-    public ResponseEntity<ResponseObject<?>> findAllByWalletId(String walletId) {
+    @RequestMapping(method = RequestMethod.GET, value = "/wallet/{id}")
+    public ResponseEntity<ResponseObject<?>> findAllByWalletId(@PathVariable String walletId) {
         List<Operation> operationList = operationService.findAllByWalletId(walletId);
         List<OperationVo> lists = new ArrayList<>();
         operationList.forEach(operation -> lists.add(operationConverter.toVo(operation)));
