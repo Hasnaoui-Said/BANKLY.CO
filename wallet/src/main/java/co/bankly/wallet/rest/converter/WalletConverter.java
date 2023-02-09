@@ -24,6 +24,7 @@ public class WalletConverter {
         vo.setUuid(bean.getUuid());
         vo.setBalance(bean.getBalance().toString());
         vo.setCreateAtt(bean.getCreateAtt());
+        vo.setUpdateAtt(bean.getUpdateAtt());
         return vo;
     }
 

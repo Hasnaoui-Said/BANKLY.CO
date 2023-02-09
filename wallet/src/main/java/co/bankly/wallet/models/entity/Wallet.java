@@ -30,5 +30,7 @@ public class Wallet {
     @NotNull @NotEmpty @Size(min = 6, max = 30)
     private String holder;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private Date CreateAtt;
+    private Date createAtt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private Date updateAtt;
 }

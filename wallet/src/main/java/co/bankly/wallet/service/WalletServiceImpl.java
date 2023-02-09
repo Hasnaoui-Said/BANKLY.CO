@@ -5,6 +5,7 @@ import co.bankly.wallet.repository.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,6 +31,9 @@ public class WalletServiceImpl {
     }
 
     public Wallet insert(Wallet entity) {
+        entity.setCreateAtt(new Date());
+        entity.setUpdateAtt(new Date());
+        entity.setUuid(UUID.randomUUID());
         return walletRepository.insert(entity);
     }
 

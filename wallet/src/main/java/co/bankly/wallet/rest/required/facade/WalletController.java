@@ -33,7 +33,7 @@ public class WalletController {
             Map<String, String> errors = new HashMap<>();
             bindingResult.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
             ResponseObject<Map<String, String>> responseObject = new ResponseObject<>(false,
-                    "User not valid!!", errors);
+                    "Data not valid!!", errors);
             return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
         }
         try {
@@ -51,7 +51,7 @@ public class WalletController {
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public ResponseEntity<ResponseObject<?>> findAll() {
         List<Wallet> all = this.walletService.findAll();
-        ResponseObject<List<WalletVo>> responseObject = new ResponseObject<>(false,
+        ResponseObject<List<WalletVo>> responseObject = new ResponseObject<>(true,
                 "Find all!", this.walletConverter.toVos(all));
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
