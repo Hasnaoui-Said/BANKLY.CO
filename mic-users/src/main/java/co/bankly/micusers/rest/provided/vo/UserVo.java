@@ -1,4 +1,4 @@
-package co.bankly.micusers.rest.vo;
+package co.bankly.micusers.rest.provided.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package co.bankly.micusers.rest.required;
+package co.bankly.micusers.rest.provided;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
