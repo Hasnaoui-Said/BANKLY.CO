@@ -1,4 +1,4 @@
-package next.bankly.co.operations.rest.required.vo;
+package next.bankly.co.operations.rest.provided.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

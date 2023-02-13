@@ -22,7 +22,7 @@ import java.util.UUID;
 public class Wallet {
 
     @Id
-    private UUID uuid;
+    private String id;
     private Double balance = 0D;
     @NotNull @NotEmpty @Size(min = 6, max = 30)
     private String name;

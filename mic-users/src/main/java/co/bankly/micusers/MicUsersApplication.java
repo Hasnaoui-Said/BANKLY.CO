@@ -2,10 +2,12 @@ package co.bankly.micusers;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableSwagger2
+@EnableFeignClients
+@EnableEurekaServer
 public class MicUsersApplication {
 
     public static void main(String[] args) {

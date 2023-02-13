@@ -1,4 +1,4 @@
-package co.bankly.wallet.rest.vo;
+package co.bankly.wallet.rest.provided.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

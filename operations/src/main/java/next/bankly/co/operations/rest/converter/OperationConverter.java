@@ -1,8 +1,9 @@
 package next.bankly.co.operations.rest.converter;
 
+import next.bankly.co.operations.exception.BadRequestException;
 import next.bankly.co.operations.models.TypeOperation;
 import next.bankly.co.operations.models.entity.Operation;
-import next.bankly.co.operations.rest.required.vo.OperationVo;
+import next.bankly.co.operations.rest.provided.vo.OperationVo;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,6 +12,10 @@ public class OperationConverter {
     public Operation toBean(OperationVo vo){
         Operation bean = new Operation();
         bean.setType(TypeOperation.valueOf(vo.getTypeOperation()));
+        if (Double.parseDouble(vo.getAmount()) > 2000)
+            throw new BadRequestException("must be less than or equal to 2000");
+        if (Double.parseDouble(vo.getAmount()) < 10)
+            throw new BadRequestException("must be greater than or equal to 10");
         bean.setAmount(Double.valueOf(vo.getAmount()));
         bean.setWalletId(vo.getWalletId());
         return bean;

@@ -4,6 +4,7 @@ import co.bankly.micusers.models.domain.ResponseObject;
 import co.bankly.micusers.rest.required.facade.WalletRestRequired;
 import co.bankly.micusers.rest.required.vo.WalletVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,23 +20,16 @@ public class WalletService {
         return walletRestRequired.findAll();
     }
 
-    public ResponseEntity<ResponseObject<?>> findByUuid(String uuid) {
-        return walletRestRequired.findByUuid(uuid);
-    }
-
-    public ResponseEntity<ResponseObject<WalletVo>> findByName(String name) {
-        return walletRestRequired.findByName(name);
-    }
-
-    public ResponseEntity<ResponseObject<WalletVo>> findByHolder(String holder) {
-        return walletRestRequired.findByHolder(holder);
-    }
-
-    public ResponseEntity<ResponseObject<Boolean>> existsByName(String name) {
-        return walletRestRequired.existsByName(name);
-    }
-
-    public ResponseEntity<ResponseObject<Boolean>> existsByHolder(String holder) {
-        return walletRestRequired.existsByHolder(holder);
+    public ResponseEntity<ResponseObject<Double>> sold(String uuid) {
+        try {
+            ResponseEntity<ResponseObject<Double>> response = walletRestRequired.sold(uuid);
+            return response;
+        }catch (Exception e){
+            ResponseObject<Double> body = new ResponseObject<>();
+            body.setData(null);
+            body.setMessage("No Content found, 'No value of wallet with this parameter {uuid = "+uuid+"} present.'");
+            body.setSuccess(false);
+            return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        }
     }
 }

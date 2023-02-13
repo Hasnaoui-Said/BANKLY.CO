@@ -1,4 +1,4 @@
-package co.bankly.wallet.rest.vo;
+package next.bankly.co.operations.rest.required.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @ToString
 public class WalletVo {
 
-    private UUID uuid;
+    private String uuid;
     private String balance;
     @NotNull
     @NotEmpty

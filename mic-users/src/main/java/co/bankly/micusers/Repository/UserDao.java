@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface UserDao extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.email=:q or u.username=:q")
-    User findByUsernameOrEmail(@Param("q") String q);
+    Optional<User> findByUsernameOrEmail(@Param("q") String q);
 
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);

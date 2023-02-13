@@ -1,7 +1,7 @@
-package co.bankly.wallet.rest.converter;
+package co.bankly.wallet.rest.provided.converter;
 
 import co.bankly.wallet.models.entity.Wallet;
-import co.bankly.wallet.rest.vo.WalletVo;
+import co.bankly.wallet.rest.provided.vo.WalletVo;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

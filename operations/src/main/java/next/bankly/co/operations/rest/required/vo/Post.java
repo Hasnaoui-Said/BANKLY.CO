@@ -1,4 +1,4 @@
-package next.bankly.co.operations.rest.provided.vo;
+package next.bankly.co.operations.rest.required.vo;
 
 public class Post {
     public int userId;

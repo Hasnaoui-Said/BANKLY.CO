@@ -1,7 +1,7 @@
 package co.bankly.micusers.rest.converter;
 
 import co.bankly.micusers.models.entity.User;
-import co.bankly.micusers.rest.vo.UserVo;
+import co.bankly.micusers.rest.provided.vo.UserVo;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,6 +23,8 @@ public class UserConverter {
 
     public UserVo toVo(User bean) {
         UserVo vo = new UserVo();
+        if (bean == null)
+            return null;
         vo.setUsername(vo.getUsername());
         vo.setEmail(bean.getEmail());
         vo.setPassword(bean.getPassword());

@@ -1,6 +1,6 @@
-package next.bankly.co.operations.rest.required.facade;
+package next.bankly.co.operations.rest.provided.facade;
 
-import next.bankly.co.operations.rest.provided.vo.Post;
+import next.bankly.co.operations.rest.required.vo.Post;
 import next.bankly.co.operations.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -2,10 +2,13 @@ package next.bankly.co.operations;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-@EnableSwagger2
+@EnableFeignClients("next.bankly.co.operations.rest.required.facade")
+@EnableEurekaServer
 public class OperationsApplication {
 
     public static void main(String[] args) {

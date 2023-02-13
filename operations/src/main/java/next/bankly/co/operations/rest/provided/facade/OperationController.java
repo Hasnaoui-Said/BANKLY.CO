@@ -1,4 +1,4 @@
-package next.bankly.co.operations.rest.required.facade;
+package next.bankly.co.operations.rest.provided.facade;
 
 
 import next.bankly.co.operations.exception.BadRequestException;
@@ -6,14 +6,13 @@ import next.bankly.co.operations.models.TypeOperation;
 import next.bankly.co.operations.models.domain.ResponseObject;
 import next.bankly.co.operations.models.entity.Operation;
 import next.bankly.co.operations.rest.converter.OperationConverter;
-import next.bankly.co.operations.rest.required.vo.OperationVo;
+import next.bankly.co.operations.rest.provided.vo.OperationVo;
 import next.bankly.co.operations.service.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.schema.Enums;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -45,12 +44,15 @@ public class OperationController {
         } catch (BadRequestException e) {
             ResponseObject<OperationVo> responseObject = new ResponseObject<>(false, e.getMessage(), operation);
             return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
+        }catch (NumberFormatException e) {
+            ResponseObject<OperationVo> responseObject = new ResponseObject<>(false, "Number Format Exception "+e.getMessage(), operation);
+            return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
         }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/wallet/{id}")
-    public ResponseEntity<ResponseObject<?>> findAllByWalletId(@PathVariable String walletId) {
-        List<Operation> operationList = operationService.findAllByWalletId(walletId);
+    public ResponseEntity<ResponseObject<List<OperationVo>>> findAllByWalletId(@PathVariable String id) {
+        List<Operation> operationList = operationService.findAllByWalletId(id);
         List<OperationVo> lists = new ArrayList<>();
         operationList.forEach(operation -> lists.add(operationConverter.toVo(operation)));
         ResponseObject<List<OperationVo>> responseObject = new ResponseObject<>(true, "find All by wallet id", lists);

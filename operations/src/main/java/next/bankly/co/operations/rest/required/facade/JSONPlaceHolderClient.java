@@ -1,13 +1,13 @@
-package next.bankly.co.operations.rest.provided;
+package next.bankly.co.operations.rest.required.facade;
 
 
-import next.bankly.co.operations.rest.provided.vo.Post;
+import next.bankly.co.operations.rest.required.vo.Post;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
-
 @FeignClient(value = "jplaceholder", url = "https://jsonplaceholder.typicode.com/")
 public interface JSONPlaceHolderClient {
 
