@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(name = "microservice-wallet-v1")
+@FeignClient(name = "zuul-users-v1")
 @RibbonClient(name = "microservice-wallet-v1")
 public interface WalletRequiredRest {
 

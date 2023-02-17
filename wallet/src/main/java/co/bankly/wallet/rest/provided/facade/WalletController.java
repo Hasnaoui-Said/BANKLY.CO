@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("${api.endpoint}/wallet")
+@CrossOrigin(origins = "http://localhost:9090")
 public class WalletController {
 
     @Autowired

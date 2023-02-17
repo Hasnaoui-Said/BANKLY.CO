@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/BANKLY.CO.iml" filepath="$PROJECT_DIR$/.idea/BANKLY.CO.iml" />
+      <module fileurl="file://$USER_HOME$/tests/4668216-Optimisez-votre-architecture-Microservices/microservice-produits/mproduits.iml" filepath="$USER_HOME$/tests/4668216-Optimisez-votre-architecture-Microservices/microservice-produits/mproduits.iml" />
     </modules>
   </component>
 </project>

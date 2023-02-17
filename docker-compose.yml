@@ -4,7 +4,7 @@ services:
   mic-users:
     image: mic-users
     container_name: mic-users-container
-    build: mic-users/
+    build: users/
     ports:
       - "9090:9090"
     depends_on:
@@ -12,6 +12,11 @@ services:
         condition: service_started
       mysqldb:
         condition: service_healthy
+      eureka-server:
+        condition: 
+        condition: service_started
+    networks:
+          - net.bankly.co
       
   mic-walllet:
     image: mic-walllet
@@ -22,6 +27,9 @@ services:
     depends_on:
       - mic-users
       - mongodb
+      - eureka-server
+    networks:
+          - net.bankly.co
 
   mic-operations:
     image: mic-operations
@@ -32,6 +40,17 @@ services:
     depends_on:
       - mic-walllet
       - postgresdb
+      - eureka-server
+    networks:
+          - net.bankly.co
+  eureka-server:
+    image: eureka-server
+    container_name: eureka-server-container
+    build: eureka-server/
+    ports:
+      - "9999:9999"
+    networks:
+          - net.bankly.co
     
   mysqldb:
     image: mysql:8.0.30
@@ -47,6 +66,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+    networks:
+          - net.bankly.co
 
   mongodb:
     image: mongo
@@ -56,6 +77,8 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=admin
+    networks:
+          - net.bankly.co
 
   postgresdb:
     image: postgres:latest
@@ -67,13 +90,18 @@ services:
         - POSTGRES_USER=postgres
         - POSTGRES_PASSWORD=postgres
         - POSTGRES_DB=bankly_co
+    networks:
+          - net.bankly.co
   
   sonarqube:
     image: sonarqube
     container_name: sonarqube-container
     ports:
       - 9000:9000
+    networks:
+          - net.bankly.co
    
 networks:
-  default:
+  net.bankly.co:
     name: net.bankly.co
+    driver: bridge
