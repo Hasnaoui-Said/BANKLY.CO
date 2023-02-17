@@ -19,6 +19,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("${api.endpoint}/operation")
+@CrossOrigin(origins = "http://localhost:9090/")
 public class OperationController {
     @Autowired
     OperationService operationService;

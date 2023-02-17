@@ -1,5 +1,7 @@
 package next.bankly.co.operations.rest.required.facade;
 
+import feign.Headers;
+import feign.Param;
 import next.bankly.co.operations.models.domain.ResponseObject;
 import next.bankly.co.operations.rest.required.vo.WalletVo;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
@@ -11,12 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(name = "microservice-wallet-v1")
+@FeignClient(name = "zuul-users-v1")
 @RibbonClient(name = "microservice-wallet-v1")
-public interface WalletRequiredRest {
 
+public interface WalletRequiredRest {
+    @Headers("Authorization: {token}")
     @RequestMapping(method = RequestMethod.GET, value = "${api.endpoint}/wallet/")
-    ResponseEntity<ResponseObject<List<WalletVo>>> findAll();
+    ResponseEntity<ResponseObject<List<WalletVo>>> findAll(@Param("token") String token);
 
     @RequestMapping(method = RequestMethod.GET, value = "${api.endpoint}/wallet/uuid/{uuid}")
     ResponseEntity<ResponseObject<WalletVo>> findByUuid(@PathVariable String uuid);

@@ -31,8 +31,6 @@ public class OperationServiceImpl implements OperationService {
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }
-        System.out.println("-->");
-        System.out.println(walletVoResponseObject);
         if (!walletVoResponseObject.isSuccess() || walletVoResponseObject.getData() == null)
             throw new BadRequestException("No Data found with this UUID");
 
