@@ -49,7 +49,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()// Exception handler
                 .exceptionHandling().accessDeniedHandler(new AccessDeniedExceptionHandler())
                 .and().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/**/users/").permitAll()
+//                .antMatchers(HttpMethod.POST, "/**/users/").permitAll()
+                .antMatchers("/**/users/").permitAll()
                 .antMatchers("/**/wallet/").permitAll()
                 .antMatchers("/**/operation/").permitAll()
                 .anyRequest().authenticated()

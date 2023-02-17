@@ -4,7 +4,7 @@ services:
   mic-users:
     image: mic-users
     container_name: mic-users-container
-    build: mic-users/
+    build: users/
     ports:
       - "9090:9090"
     depends_on:
