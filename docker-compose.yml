@@ -13,14 +13,13 @@ services:
       mysqldb:
         condition: service_healthy
       eureka-server:
-        condition: 
         condition: service_started
     networks:
           - net.bankly.co
       
-  mic-walllet:
-    image: mic-walllet
-    container_name: mic-walllet-container
+  mic-wallet:
+    image: mic-wallet
+    container_name: mic-wallet-container
     build: wallet/
     ports:
       - "9091:9091"
@@ -38,7 +37,7 @@ services:
     ports:
       - "9092:9092"
     depends_on:
-      - mic-walllet
+      - mic-wallet
       - postgresdb
       - eureka-server
     networks:

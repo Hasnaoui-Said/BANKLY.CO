@@ -50,9 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(new AccessDeniedExceptionHandler())
                 .and().authorizeRequests()
 //                .antMatchers(HttpMethod.POST, "/**/users/").permitAll()
-                .antMatchers("/**/users/").permitAll()
-                .antMatchers("/**/wallet/").permitAll()
-                .antMatchers("/**/operation/").permitAll()
+                .antMatchers("/**/users/**").permitAll()
+                .antMatchers("/**/wallet/**").permitAll()
+                .antMatchers("/**/operation/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    System.out.println("the request gor through our filter");
 //                    filterChain.doFilter(servletRequest,servletResponse);
 //                },JwtAuthenticationFilter.class)
-                // notion middleware: filter second->  communique with other app as a passerelle
+                // notion middleware: filter second->  communiqué with other app as a passerelle
                 .addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
