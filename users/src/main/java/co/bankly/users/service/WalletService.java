@@ -19,6 +19,9 @@ public class WalletService {
     public ResponseEntity<ResponseObject<List<WalletVo>>> findAll() {
         return walletRestRequired.findAll();
     }
+    public ResponseEntity<ResponseObject<WalletVo>> findWalletByHolder(String holder) {
+        return walletRestRequired.findWalletByHolder(holder);
+    }
 
     public ResponseEntity<ResponseObject<Double>> sold(String uuid) {
         try {

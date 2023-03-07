@@ -8,6 +8,7 @@ import co.bankly.wallet.rest.required.facade.OperationRestRequired;
 import co.bankly.wallet.rest.required.vo.OperationVo;
 import com.mongodb.client.MongoClients;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.SimpleMongoClientDbFactory;
@@ -82,9 +83,9 @@ public class WalletServiceImpl {
         return wallet;
     }
 
-    public List<OperationVo> findAllOperations(String idWallet) {
-        this.findByUuid(idWallet);
-        ResponseEntity<ResponseObject<List<OperationVo>>> responseEntity = this.operationRestRequired.findAllByWalletId(idWallet);
+    public Page<?> findAllOperations(String idWallet, int page, int size) {
+        this.findByUuid(idWallet); // throw exception if null
+        ResponseEntity<ResponseObject<Page<?>>> responseEntity = this.operationRestRequired.findAllByWalletId(idWallet, page, size);
         if (responseEntity.getBody() == null)
             throw new BadRequestException("Some error clocked");
         return responseEntity.getBody().getData();

@@ -14,10 +14,11 @@ import java.util.List;
 @FeignClient(name = "microservice-wallet-v1")
 @RibbonClient(name = "microservice-wallet-v1")
 public interface WalletRestRequired {
-    @RequestMapping(method = RequestMethod.GET, value = "${api.endpoint}/wallet")
+    @RequestMapping(method = RequestMethod.GET, value = "${api.endpoint}/wallet/")
     ResponseEntity<ResponseObject<List<WalletVo>>> findAll();
-
     @RequestMapping(method = RequestMethod.GET, value = "${api.endpoint}/wallet/sold/{uuid}")
     ResponseEntity<ResponseObject<Double>> sold(@PathVariable String uuid);
+    @RequestMapping(method = RequestMethod.GET, value = "${api.endpoint}/wallet/holder/{holder}")
+    public ResponseEntity<ResponseObject<WalletVo>> findWalletByHolder(@PathVariable String holder);
 
 }

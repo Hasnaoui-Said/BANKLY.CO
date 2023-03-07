@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,13 +72,46 @@ public class UserRest {
     public ResponseEntity<ResponseObject<?>> findByUuid(@PathVariable String uuid) {
         try {
             UUID uuid1 = UUID.fromString(uuid);
-            User user = this.userDetailsService.findByUuid(uuid1);;
+            User user = this.userDetailsService.findByUuid(uuid1);
             ResponseObject<UserVo> responseObject = new ResponseObject<>(true,
                     "Find by uuid user!!", this.userConverter.toVo(user));
             return new ResponseEntity<>(responseObject, HttpStatus.OK);
         } catch (IllegalArgumentException | NullPointerException e) {
             ResponseObject<String> responseObject = new ResponseObject<>(false,
                     e.getMessage(), uuid);
+            return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @RequestMapping(method = RequestMethod.DELETE, value = "/uuid/{uuid}")
+    public ResponseEntity<ResponseObject<?>> deleteByUuid(@PathVariable String uuid) {
+        try {
+            UUID uuid1 = UUID.fromString(uuid);
+            int result = this.userDetailsService.deleteByUuid(uuid1);
+            if (result != 1)
+                throw new BadRequestException(String.format("User with this uuid ' %s ' not found", uuid));
+
+            ResponseObject<?> responseObject = new ResponseObject<>(true,
+                    "User deleted successfully", result);
+            return new ResponseEntity<>(responseObject, HttpStatus.OK);
+        } catch (IllegalArgumentException | NullPointerException | BadRequestException e) {
+            ResponseObject<String> responseObject = new ResponseObject<>(false,
+                    e.getMessage(), uuid);
+            return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
+        }
+    }
+    @RequestMapping(method = RequestMethod.DELETE, value = "/email/{email}")
+    public ResponseEntity<ResponseObject<?>> deleteByEmail(@PathVariable String email) {
+        try {
+            int result = this.userDetailsService.deleteByEmail(email);
+            if (result != 1)
+                throw new BadRequestException(String.format("User with this email ' %s ' not found", email));
+
+            ResponseObject<?> responseObject = new ResponseObject<>(true,
+                    "User deleted successfully", result);
+            return new ResponseEntity<>(responseObject, HttpStatus.OK);
+        } catch (BadRequestException e) {
+            ResponseObject<String> responseObject = new ResponseObject<>(false,
+                    e.getMessage(), email);
             return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
         }
     }
@@ -105,5 +139,10 @@ public class UserRest {
     @RequestMapping(method = RequestMethod.GET, value = "/wallet/")
     public ResponseEntity<ResponseObject<List<WalletVo>>> findALlWallet() {
         return walletService.findAll();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/wallet/holder/")
+    public ResponseEntity<ResponseObject<WalletVo>> findWalletByHolder(Principal principal){
+        return walletService.findWalletByHolder(principal.getName());
     }
 }

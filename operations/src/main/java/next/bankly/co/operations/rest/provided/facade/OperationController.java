@@ -9,6 +9,8 @@ import next.bankly.co.operations.rest.converter.OperationConverter;
 import next.bankly.co.operations.rest.provided.vo.OperationVo;
 import next.bankly.co.operations.service.OperationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,7 +21,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("${api.endpoint}/operation")
-@CrossOrigin(origins = "http://localhost:9090/")
+//@CrossOrigin(origins = "http://localhost:9090/")
 public class OperationController {
     @Autowired
     OperationService operationService;
@@ -45,18 +47,20 @@ public class OperationController {
         } catch (BadRequestException e) {
             ResponseObject<OperationVo> responseObject = new ResponseObject<>(false, e.getMessage(), operation);
             return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
-        }catch (NumberFormatException e) {
-            ResponseObject<OperationVo> responseObject = new ResponseObject<>(false, "Number Format Exception "+e.getMessage(), operation);
+        } catch (NumberFormatException e) {
+            ResponseObject<OperationVo> responseObject = new ResponseObject<>(false, "Number Format Exception " + e.getMessage(), operation);
             return new ResponseEntity<>(responseObject, HttpStatus.BAD_REQUEST);
         }
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/wallet/{id}")
-    public ResponseEntity<ResponseObject<List<OperationVo>>> findAllByWalletId(@PathVariable String id) {
-        List<Operation> operationList = operationService.findAllByWalletId(id);
-        List<OperationVo> lists = new ArrayList<>();
-        operationList.forEach(operation -> lists.add(operationConverter.toVo(operation)));
-        ResponseObject<List<OperationVo>> responseObject = new ResponseObject<>(true, "find All by wallet id", lists);
+    public ResponseEntity<ResponseObject<Page<Operation>>> findAllByWalletId(@PathVariable String id,
+                                                                               @RequestParam(name = "page", defaultValue = "0") int page,
+                                                                               @RequestParam(name = "size", defaultValue = "5") int size) {
+        Page<Operation> operationList = operationService.findAllByWalletId(id, PageRequest.of(page, size));
+//        List<OperationVo> lists = new ArrayList<>();
+//        operationList.forEach(operation -> lists.add(operationConverter.toVo(operation)));
+        ResponseObject<Page<Operation>> responseObject = new ResponseObject<>(true, "find All by wallet id", operationList);
         return new ResponseEntity<>(responseObject, HttpStatus.OK);
     }
 

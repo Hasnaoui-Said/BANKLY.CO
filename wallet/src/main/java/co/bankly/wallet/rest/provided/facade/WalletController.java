@@ -9,6 +9,7 @@ import co.bankly.wallet.rest.required.vo.OperationVo;
 import co.bankly.wallet.service.WalletServiceImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,7 +23,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("${api.endpoint}/wallet")
-@CrossOrigin(origins = "http://localhost:9090")
+//@CrossOrigin(origins = "http://localhost:9090")
 public class WalletController {
 
     @Autowired
@@ -71,10 +72,12 @@ public class WalletController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/operations/{idWallet}")
-    public ResponseEntity<ResponseObject<?>> operations(@PathVariable String idWallet) {
+    public ResponseEntity<ResponseObject<?>> operations(@PathVariable String idWallet,
+                                                        @RequestParam(name = "page", defaultValue = "0") int page,
+                                                        @RequestParam(name = "size", defaultValue = "5") int size) {
         try {
-            List<OperationVo> all = this.walletService.findAllOperations(idWallet);
-            ResponseObject<List<OperationVo>> responseObject = new ResponseObject<>(true,
+            Page<?> all = this.walletService.findAllOperations(idWallet, page, size);
+            ResponseObject<Page<?>> responseObject = new ResponseObject<>(true,
                     "Find all operation by id wallet!", all);
             return new ResponseEntity<>(responseObject, HttpStatus.OK);
         }catch (BadRequestException e){

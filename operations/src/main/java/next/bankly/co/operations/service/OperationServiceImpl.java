@@ -8,8 +8,11 @@ import next.bankly.co.operations.models.entity.Operation;
 import next.bankly.co.operations.rest.required.facade.WalletRequiredRest;
 import next.bankly.co.operations.rest.required.vo.WalletVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -61,8 +64,8 @@ public class OperationServiceImpl implements OperationService {
     }
 
     @Override
-    public List<Operation> findAllByWalletId(String walletId) {
-        return operationDao.findAllByWalletId(walletId);
+    public Page<Operation> findAllByWalletId(String walletId, PageRequest pageRequest) {
+        return operationDao.findAllByWalletIdOrderByCreateDateDesc(walletId, pageRequest);
     }
 
     @Override

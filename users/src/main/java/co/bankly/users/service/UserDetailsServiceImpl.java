@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -62,5 +63,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public User findByEmail(String email) {
         return this.userDao.findByEmail(email);
+    }
+
+    @Transactional
+    public int deleteByUuid(UUID uuid1) {
+        return this.userDao.deleteByUuid(uuid1);
+    }
+
+    @Transactional
+    public int deleteByEmail(String email) {
+        return this.userDao.deleteByEmail(email);
     }
 }
